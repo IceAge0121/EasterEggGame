@@ -17,12 +17,31 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 _velocity;
     bool _isGrounded;
-    
+
+    private void Start()
+    {
+        _controller = GetComponent<CharacterController>();
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
+        //_isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
 
+        //Uses built in method "isGrounded" to check if Character Controller is colliding with anything.
+        if (_controller.isGrounded)
+        {
+            _isGrounded = true;
+            Debug.Log("Player is grounded!");
+        }
+        else
+        {
+            _isGrounded = false;
+            Debug.Log("Player is in the air!");
+        }
+            
+        //Forces player to the ground when their Y velocity is 0 or less
         if (_isGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f;
@@ -52,5 +71,4 @@ public class PlayerMovement : MonoBehaviour
         _controller.Move(_velocity * Time.deltaTime);
 
     }
-        
 }
