@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask _groundMask;
 
     Vector3 _velocity;
-    bool _isGrounded;
+    bool isGrounded;
 
     private void Start()
     {
@@ -32,17 +32,17 @@ public class PlayerMovement : MonoBehaviour
         //Uses built in method "isGrounded" to check if Character Controller is colliding with anything.
         if (_controller.isGrounded)
         {
-            _isGrounded = true;
+            isGrounded = true;
             Debug.Log("Player is grounded!");
         }
         else
         {
-            _isGrounded = false;
+            isGrounded = false;
             Debug.Log("Player is in the air!");
         }
             
         //Forces player to the ground when their Y velocity is 0 or less
-        if (_isGrounded && _velocity.y < 0)
+        if (isGrounded && _velocity.y < 0)
         {
             _velocity.y = -2f;
         }
@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
         
         
         //if(Input.GetButtonDown("Jump"))
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             _velocity.y = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
         }
