@@ -4,29 +4,36 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float _mouseSensitivity = 100f;
+    public float _mouseSensitivity = 50f;
 
     public Transform _playerBody;
 
-    float _xRotation = 0f;
+    float xRotation = 0f;
     
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float _mouseX = Input.GetAxis("Mouse X") * _mouseSensitivity * Time.deltaTime;
-        float _mouseY = Input.GetAxis("Mouse Y") * _mouseSensitivity * Time.deltaTime;
+        //Assigns floats for mouse x and y axes multiplied by mouse sensitivity * delta time.
+        //float mouseX = Input.GetAxis("Mouse X") * _mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * _mouseSensitivity;
 
-        _xRotation -= _mouseY;
-        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+        //float mouseY = Input.GetAxis("Mouse Y") * _mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * _mouseSensitivity;
 
-        transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         
-        _playerBody.Rotate(Vector3.up * _mouseX);
+        
+        //Rotates the player body around the Y axis (up) by the amount specified by "mouseX"
+        _playerBody.Rotate(Vector3.up * mouseX);
     }
 }
