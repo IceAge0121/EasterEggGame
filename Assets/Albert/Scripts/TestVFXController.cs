@@ -4,9 +4,21 @@ public class TestVFXController : MonoBehaviour
 {
     [SerializeField] private GameObject _vfx;
 
-    private void Update()
+    public void SpawnVFX()
     {
-        if (_vfx != null && Input.GetMouseButtonDown(0))
+        if (_vfx != null)
+            Instantiate(_vfx, transform);
+    }
+
+    public void SpawnVFXGlobal(Vector3 inPosition, Quaternion inRotation)
+    {
+        if (_vfx != null)
+            Instantiate(_vfx, inPosition, inRotation);
+    }
+
+    public void SpawnVFXToTransform(Transform transform)
+    {
+        if (_vfx != null)
             Instantiate(_vfx, transform);
     }
 }

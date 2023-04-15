@@ -6,11 +6,7 @@ public class PlayerMovement2AK : MonoBehaviour
 {
     [SerializeField] private Rigidbody _playerRb;
     [SerializeField] private CapsuleCollider _playerCollider;
-    private float _playerHeight;
-
     [SerializeField] private Transform _cameraContainerTransform;
-
-    private Vector3 _horizontalInput;
 
     [SerializeField] private float _playerMaxSpeed = 4.0f;
     [SerializeField] private float _playerAcceleration = 10.0f;
@@ -22,12 +18,15 @@ public class PlayerMovement2AK : MonoBehaviour
 
     [SerializeField] private bool _jumpFunctionality = false;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
+
     private bool _jumpCommand = false;
     private bool _canJump = true;
-
-    private float _groundRayLength = 0.1f;
     private LayerMask _groundMask;
     private bool _isGrounded;
+
+    private float _playerHeight;
+    private Vector3 _horizontalInput;
+    private float _groundRayLength = 0.1f;
 
     private float NetPlayerAcceleration => _playerAcceleration + _playerDeceleration;
     private float JumpForce => Mathf.Sqrt(_gravity * _jumpHeight * 2.0f);

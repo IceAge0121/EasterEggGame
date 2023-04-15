@@ -3,17 +3,17 @@ using UnityEngine;
 public class CameraControllerAK : MonoBehaviour
 {
     [SerializeField] private float _mouseSensitivity = 800.0f;
-    [SerializeField] private Transform _playerCameraAnchor;
+    //[SerializeField] private Transform _playerCameraAnchor;
     [SerializeField] private Transform _cameraTransform;
-    private float xRotation = 0.0f;
+    private float xRotation = -10.0f;
 
     private void Awake()
     {
-        if (_playerCameraAnchor == null)
-        {
-            _playerCameraAnchor = GameObject.FindGameObjectWithTag
-                                  ("CameraAnchor").transform;
-        }
+        //if (_playerCameraAnchor == null)
+        //{
+        //    _playerCameraAnchor = GameObject.FindGameObjectWithTag
+        //                          ("CameraAnchor").transform;
+        //}
 
         if (_cameraTransform == null)
         {
@@ -21,23 +21,24 @@ public class CameraControllerAK : MonoBehaviour
                                ("MainCamera").transform;
 
         }
-        UpdatePosition();
+        //UpdatePosition();
     }
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        LockCursor();
 
-        Vector3 currentRotation = transform.rotation.eulerAngles;
-        transform.rotation = Quaternion.Euler(new Vector3(0.0f,
-                                                          currentRotation.y,
-                                                          0.0f));
+        //xRotation = _cameraTransform.localRotation.eulerAngles.x;
+
+        //Vector3 currentRotation = transform.rotation.eulerAngles;
+        //transform.rotation = Quaternion.Euler(new Vector3(0.0f,
+        //                                                  currentRotation.y,
+        //                                                  0.0f));
     }
 
     private void Update()
     {
-        UpdatePosition();
+        //UpdatePosition();
         //float inputScale = Time.fixedDeltaTime * _mouseSensitivity;
         float inputScale = _mouseSensitivity / 100.0f;
         float mouseX = Input.GetAxis("Mouse X") * inputScale;
@@ -50,8 +51,20 @@ public class CameraControllerAK : MonoBehaviour
         _cameraTransform.localRotation = Quaternion.Euler(xRotation, 0.0f, 0.0f);
     }
 
-    private void UpdatePosition()
+    //private void UpdatePosition()
+    //{
+    //    transform.position = _playerCameraAnchor.position;
+    //}
+
+    public void LockCursor()
     {
-        transform.position = _playerCameraAnchor.position;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void FreeCursor()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 }

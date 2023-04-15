@@ -8,6 +8,8 @@ TagManager:
   - CameraContainer
   - FxTemporaire
   - Selectable
+  - QuestionMonument
+  - QuestionInputField
   layers:
   - Default
   - TransparentFX
