@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Phil/Scenes/Main Menu.unity
     guid: 3641b751676186948aa2ca720a21cff3
+  - enabled: 1
+    path: Assets/Phil/Scenes/Instructions.unity
+    guid: 2667b205129a99248831898f7a382ba5
+  - enabled: 1
+    path: Assets/Calvin/Scenes/Easter Egg AREA 1.unity
+    guid: 25d875d39984b6d4da8e89de71642a49
   m_configObjects: {}
