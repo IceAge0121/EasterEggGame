@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: PrefabPalette-Default
   m_EditorClassIdentifier: 
   prefabs:
+<<<<<<< HEAD
+=======
   - gameObject: {fileID: 1364733423325056, guid: 97e77ce5d8e6fcf45968ff6855ddddf2,
       type: 3}
     settings:
@@ -183,6 +185,7 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: SM_Plant_03
+>>>>>>> dfadac6cc1c5fc6019df8a63a92f264448df024d
   - gameObject: {fileID: 1169256839577764, guid: d34fda6422ea2484aa3c223d90f9a903,
       type: 3}
     settings:
@@ -200,7 +203,11 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: SM_Plant_04
+<<<<<<< HEAD
+  - gameObject: {fileID: 1262191819135750, guid: ef8827edf81d4f34aace1bd2d0c358ff,
+=======
   - gameObject: {fileID: 1263270136472832, guid: b773b11ae13054e49bbf89081ae39722,
+>>>>>>> dfadac6cc1c5fc6019df8a63a92f264448df024d
       type: 3}
     settings:
       m_Strength: 50
@@ -216,6 +223,9 @@ MonoBehaviour:
       m_XScaleBool: 0
       m_YScaleBool: 0
       m_ZScaleBool: 0
+<<<<<<< HEAD
+    name: SM_Plant_Bush_Leaves_02
+=======
     name: SM_Plant_05
   - gameObject: {fileID: 1597375411515710, guid: c2cdea0710f55cb4b8be00312c82e839,
       type: 3}
@@ -319,6 +329,7 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: SM_Plant_Fern_01
+>>>>>>> dfadac6cc1c5fc6019df8a63a92f264448df024d
   - gameObject: {fileID: 1896228811670048, guid: a77401c30ad8d4a4cbf36d16e8126678,
       type: 3}
     settings:
@@ -336,6 +347,8 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: SM_Plant_Fern_02
+<<<<<<< HEAD
+=======
   - gameObject: {fileID: 1994116034729256, guid: 9b0b9e5bc77867f45ad0f3080aa409e3,
       type: 3}
     settings:
@@ -676,3 +689,4 @@ MonoBehaviour:
       m_YScaleBool: 0
       m_ZScaleBool: 0
     name: SM_Plant_PalmBush_01
+>>>>>>> dfadac6cc1c5fc6019df8a63a92f264448df024d
