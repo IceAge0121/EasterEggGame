@@ -3,43 +3,50 @@ using UnityEngine;
 public class CameraControllerAK : MonoBehaviour
 {
     [SerializeField] private float _mouseSensitivity = 800.0f;
-    //[SerializeField] private Transform _playerCameraAnchor;
     [SerializeField] private Transform _cameraTransform;
     private float xRotation = -10.0f;
 
+    private RaycastHit _raycastHit;
+    private GameObject _highlightedObject;
+    [SerializeField] private float _maxInteractionDistance = 10.0f;
+
     private void Awake()
     {
-        //if (_playerCameraAnchor == null)
-        //{
-        //    _playerCameraAnchor = GameObject.FindGameObjectWithTag
-        //                          ("CameraAnchor").transform;
-        //}
-
         if (_cameraTransform == null)
-        {
-            _cameraTransform = GameObject.FindGameObjectWithTag
-                               ("MainCamera").transform;
-
-        }
-        //UpdatePosition();
+            _cameraTransform = Camera.main.transform;
     }
 
     private void Start()
     {
         LockCursor();
-
-        //xRotation = _cameraTransform.localRotation.eulerAngles.x;
-
-        //Vector3 currentRotation = transform.rotation.eulerAngles;
-        //transform.rotation = Quaternion.Euler(new Vector3(0.0f,
-        //                                                  currentRotation.y,
-        //                                                  0.0f));
     }
 
     private void Update()
     {
-        //UpdatePosition();
-        //float inputScale = Time.fixedDeltaTime * _mouseSensitivity;
+        UpdateRotation();
+        ClearHighlighted();
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
+
+        // If we pass this, it means our raycast hit someting
+        if (!Physics.Raycast(ray, out _raycastHit))
+            return;
+
+        if (_raycastHit.distance > _maxInteractionDistance)
+            return;
+
+        HighlightObject(_raycastHit.transform);
+
+        if (Input.GetMouseButtonDown(0) == false)
+            return;
+
+        HandlePickup(_raycastHit.transform.gameObject);
+        HandleTextInput(_raycastHit.transform.gameObject);
+    }
+
+    // Private methods.
+    private void UpdateRotation()
+    {
         float inputScale = _mouseSensitivity / 100.0f;
         float mouseX = Input.GetAxis("Mouse X") * inputScale;
         float mouseY = Input.GetAxis("Mouse Y") * inputScale;
@@ -51,11 +58,45 @@ public class CameraControllerAK : MonoBehaviour
         _cameraTransform.localRotation = Quaternion.Euler(xRotation, 0.0f, 0.0f);
     }
 
-    //private void UpdatePosition()
-    //{
-    //    transform.position = _playerCameraAnchor.position;
-    //}
+    private void ClearHighlighted()
+    {
+        if (_highlightedObject != null)
+        {
+            _highlightedObject.gameObject.GetComponent<Outline>().enabled = false;
+            _highlightedObject = null;
+        }
+    }
 
+    private void HighlightObject(Transform toHighlight)
+    {
+        if (_highlightedObject != null)
+        {
+            _highlightedObject.GetComponent<Outline>().enabled = false;
+            _highlightedObject = null;
+        }
+
+        if (toHighlight.gameObject.GetComponent<Outline>() != null)
+        {
+            _highlightedObject = toHighlight.gameObject;
+            _highlightedObject.GetComponent<Outline>().enabled = true;
+        }
+    }
+
+    private void HandlePickup(GameObject pickupObject)
+    {
+        if (pickupObject.GetComponentInParent<Pickup>() != null)
+            pickupObject.GetComponentInParent<Pickup>().PickedUp();
+    }
+
+    private void HandleTextInput(GameObject textInput)
+    {
+        if (textInput.GetComponentInParent<TextQuestionStation>() != null)
+        {
+
+        }
+    }
+
+    // Public methods.
     public void LockCursor()
     {
         Cursor.lockState = CursorLockMode.Locked;

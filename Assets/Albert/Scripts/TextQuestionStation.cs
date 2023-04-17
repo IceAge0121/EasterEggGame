@@ -4,27 +4,23 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class TextQuestionStation : MonoBehaviour
 {
-    [SerializeField] private InputWindow _inputWindow;
-
     [SerializeField] private GameManager _gameManager;
 
-    [SerializeField] private Transform _inputObject;
-    [SerializeField] private CameraControllerAK _cameraController;
-    [SerializeField] private PlayerMovement2AK _playerMovement;
-    [SerializeField] private TestVFXController _vfx;
+    [SerializeField] private InputWindow _inputWindow;
+    [SerializeField] private Transform _inputOptionObject;
     [SerializeField] private GameObject _questionMonument;
-    private AudioSource _audioSource;
+    [SerializeField] private string _solutionString;
 
     [SerializeField] private Vector3 _pickupSpawnOffset;
     [SerializeField] private GameObject _pickupPrefab;
 
     [SerializeField] private AudioClip _puffClip;
+    [SerializeField] private GameObject _poofVFX;
+    [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _selectSound;
 
     [SerializeField] private AudioClip _correctSound;
     [SerializeField] private AudioClip _incorrectSound;
-
-    [SerializeField] private string _solutionString;
 
     private RaycastHit _raycastHit;
     private bool _canCast = true;
@@ -32,7 +28,7 @@ public class TextQuestionStation : MonoBehaviour
     private void Awake()
     {
         if (_gameManager == null)
-            _gameManager = GameManager.FindObjectOfType<GameManager>();
+            _gameManager = FindObjectOfType<GameManager>();
 
         if (_audioSource == null)
             _audioSource = GetComponent<AudioSource>();
@@ -40,29 +36,19 @@ public class TextQuestionStation : MonoBehaviour
         if (_inputWindow == null)
             _inputWindow = GameObject.FindGameObjectWithTag("QuestionInputField").GetComponent<InputWindow>();
 
-        if (_cameraController == null)
-            _cameraController = Camera.main.GetComponentInParent<CameraControllerAK>();
-
-        if (_playerMovement == null)
-            _playerMovement = GameObject.FindGameObjectWithTag("Player").
-                              GetComponent<PlayerMovement2AK>();
-
-        if (_inputObject == null || _questionMonument == null)
+        if (_inputOptionObject == null || _questionMonument == null)
         {
             Transform[] allChildren = GetComponentsInChildren<Transform>();
 
             foreach (Transform transform in allChildren)
             {
                 if (transform.tag == "Selectable")
-                    _inputObject = transform;
+                    _inputOptionObject = transform;
 
                 if (transform.tag == "QuestionMonument")
                     _questionMonument = transform.gameObject;
             }
         }
-
-        if (_vfx == null)
-            _vfx = GetComponentInChildren<TestVFXController>();
     }
 
     private void Update()
@@ -73,13 +59,12 @@ public class TextQuestionStation : MonoBehaviour
 
             if (Physics.Raycast(ray, out _raycastHit))
             {
-                if (_raycastHit.transform != _inputObject)
+                if (_raycastHit.transform != _inputOptionObject)
                     return;
 
                 PlaySelectSound();
 
-                DeactivatePlayer();
-                Debug.Log("Commanding input window to appear.");
+                _gameManager.DeactivatePlayerControls();
                 _canCast = false;
                 _inputWindow.Show(this);
 
@@ -95,9 +80,16 @@ public class TextQuestionStation : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && _questionMonument.activeInHierarchy == false)
         {
             PlayPuffSounds();
-            _vfx.SpawnVFX();
+            ToolBox.SpawnVFXLocal(_poofVFX, transform);
             _questionMonument.SetActive(true);
         }
+    }
+
+    private void HandleTextInput()
+    {
+        PlaySelectSound();
+        _gameManager.DeactivatePlayerControls();
+        _inputWindow.Show(this);
     }
 
     public void CompareAnswer(string answer)
@@ -152,7 +144,7 @@ public class TextQuestionStation : MonoBehaviour
     {
         PlayIncorrectSound();
         yield return new WaitForSeconds(0.5f);
-        ActivatePlayer();
+        _gameManager.ActivatePlayerControls();
     }
 
     private IEnumerator CorrectAnswer()
@@ -160,25 +152,12 @@ public class TextQuestionStation : MonoBehaviour
         PlayCorrectSound();
 
         yield return new WaitForSeconds(1.0f);
-        ActivatePlayer();
+        _gameManager.ActivatePlayerControls();
         PlayPuffSounds();
-        _vfx.SpawnVFX();
+        //_vfx.SpawnVFX();
         _questionMonument.SetActive(false);
-        _gameManager.IncrementPickedUpCount();
 
         SpawnPickupPrefab();
         StartCoroutine(DelayedDestroy());
-    }
-
-    private void DeactivatePlayer()
-    {
-        _cameraController.FreeCursor();
-        _gameManager.DeactivatePlayerControls();
-    }
-
-    private void ActivatePlayer()
-    {
-        _gameManager.ActivatePlayerControls();
-        _cameraController.LockCursor();
     }
 }

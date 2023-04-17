@@ -10,6 +10,7 @@ TagManager:
   - Selectable
   - QuestionMonument
   - QuestionInputField
+  - VFXAnchor
   layers:
   - Default
   - TransparentFX

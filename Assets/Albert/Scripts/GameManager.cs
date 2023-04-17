@@ -4,33 +4,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// This class should be made static in the future.
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] public CameraControllerAK _cameraController;
-    [SerializeField] public PlayerMovement2AK _playerController;
-    [SerializeField] public TextMeshProUGUI[] _titleTexts;
-    [SerializeField] public TextMeshProUGUI[] _completeTexts;
-    [SerializeField] public RawImage _blackScreen;
-    [SerializeField] public float _textFadeSpeed = 0.1f;
+    [SerializeField] private int _puzzleCount;
+    [SerializeField] private CameraControllerAK _cameraController;
+    [SerializeField] private PlayerControllerAK _playerController;
+    [SerializeField] private TextMeshProUGUI[] _titleTexts;
+    [SerializeField] private TextMeshProUGUI[] _completeTexts;
+    [SerializeField] private RawImage _blackScreen;
+    [SerializeField] private float _textFadeSpeed = 0.1f;
 
     private bool _gameStarted = false;
-    [SerializeField] private int _puzzleCount;
+    private bool _inputtingText = false;
     private int _pickedUpCount = 0;
-
-    //
-    //private string _currentRiddleSolution;
-    //private string _currentInputAnswer;
-
-    //public void ChangeRiddleSolution(string solution)
-    //{
-    //    _currentRiddleSolution = solution;
-    //}
-
-    //public void ChangeInputAnswer(string answer)
-    //{
-    //    _currentInputAnswer = answer;
-    //}
-    //
 
     private void Awake()
     {
@@ -39,12 +26,15 @@ public class GameManager : MonoBehaviour
 
         if (_playerController == null)
             _playerController = GameObject.FindGameObjectWithTag("Player").
-                              GetComponent<PlayerMovement2AK>();
+                              GetComponent<PlayerControllerAK>();
 
+        // // Consider changing this.
         DeactivatePlayerControls();
         StartCoroutine(FadeScreen());
+        // //
     }
 
+    // // Start of methods to consider changing.
     private void Update()
     {
         if (!_gameStarted && Input.GetMouseButtonDown(0))
@@ -60,6 +50,18 @@ public class GameManager : MonoBehaviour
         Debug.Log($"'_gameStarted' set to {_gameStarted}.");
     }
 
+    public void GameComplete()
+    {
+        StartCoroutine(ShowEndingText());
+        StartCoroutine(ShowScreen());
+        Invoke("ResetScene", 7.0f);
+    }
+
+    private void ResetScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private IEnumerator FadeOpeningTexts()
     {
         bool keepgoing = true;
@@ -67,8 +69,6 @@ public class GameManager : MonoBehaviour
         {
             foreach (TextMeshProUGUI tmp in _titleTexts)
             {
-                //Debug.Log(tmp.alpha);
-
                 tmp.alpha -= _textFadeSpeed * Time.deltaTime;
                 keepgoing = tmp.alpha >= 0.0f;
             }
@@ -103,37 +103,26 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         _blackScreen.CrossFadeAlpha(1.0f, 2.0f, false);
     }
-
-    public void GameComplete()
-    {
-        StartCoroutine(ShowEndingText());
-        StartCoroutine(ShowScreen());
-        Invoke("ResetScene", 7.0f);
-    }
-
-    private void ResetScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    // // End of methods possbly to change.
 
     public void IncrementPickedUpCount()
     {
         _pickedUpCount++;
 
         if (_pickedUpCount >= _puzzleCount)
-        {
             GameComplete();
-        }
     }
 
     public void ActivatePlayerControls()
     {
         _cameraController.enabled = true;
         _playerController.enabled = true;
+        _cameraController.LockCursor();
     }
 
     public void DeactivatePlayerControls()
     {
+        _cameraController.FreeCursor();
         _cameraController.enabled = false;
         _playerController.enabled = false;
     }

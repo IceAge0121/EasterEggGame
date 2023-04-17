@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9011167431539580628}
   - component: {fileID: 9011167431539580629}
-  - component: {fileID: 9011167431539580631}
   - component: {fileID: 9011167431539580630}
   m_Layer: 0
   m_Name: PickupPrefab
@@ -132,19 +131,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &9011167431539580631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9011167431539580627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9299615ce75c9549be369dea12e32a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _vfx: {fileID: 1845240806346120, guid: 2c124869a4ef31748ae26fe4b2524a63, type: 3}
 --- !u!114 &9011167431539580630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,13 +144,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 0}
-  _vfxController: {fileID: 9011167431539580631}
-  _vfxSpawnOffset: {x: 0, y: 0.17, z: 0}
+  _pickupObject: {fileID: 8505854073511217917}
+  _pickupPersistentEffects: {fileID: 8506262300862600638}
+  _persistentEffectsPosOffset: {x: 0, y: 0.15, z: 0}
+  _onPickupEffects: {fileID: 1845240806346120, guid: 2c124869a4ef31748ae26fe4b2524a63,
+    type: 3}
+  _onPickupEffectsOffset: {x: 0, y: -1, z: 0}
   _pickupSound: {fileID: 8300000, guid: 3ff3b95b80687b949baa2d97ecf57602, type: 3}
-  _children:
-  - {fileID: 8505854073511217917}
-  - {fileID: 8506262300862600638}
-  _pickupOrb: {fileID: 8505854073511217917}
 --- !u!1001 &8505854073511119849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -628,17 +614,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8505854073543276584}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9011167432146973565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8506262300862600638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb82eaac8ae93744a47e220eda1842a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetTransform: {fileID: 8505854073511588569}
-  _offset: {x: 0, y: 0.17, z: 0}

@@ -1,79 +1,69 @@
-using System.Collections;
+using System.Linq;
 using UnityEngine;
+
+[RequireComponent(typeof(AudioSource))]
 
 public class Pickup : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
     private Camera _mainCamera;
-    [SerializeField] private TestVFXController _vfxController;
-    [SerializeField] private Vector3 _vfxSpawnOffset;
-    [SerializeField] private AudioClip _pickupSound;
-    [SerializeField] private GameObject[] _children;
-    [SerializeField] private GameObject _pickupOrb;
+    [SerializeField] private GameManager _gameManager;
 
-    private bool _hasBeenPickedUp = false;
+    [Header("Must assign in inspector")]
+    [SerializeField] private GameObject _pickupObject;
+    [SerializeField] private GameObject _pickupPersistentEffects;
+    [SerializeField] private Vector3 _persistentEffectsPosOffset;
+
+    [SerializeField] private GameObject _onPickupEffects;
+    [SerializeField] private Vector3 _onPickupEffectsOffset;
+    [SerializeField] private AudioClip _onPickupSound;
+    [SerializeField] private float _onPickupSoundVolume;
     private AudioSource _audioSource;
 
-    private RaycastHit _raycastHit;
+    [SerializeField] private float _destroyDelay = 3.0f;
+
+    private bool _hasBeenPickedUp = false;
 
     private void Awake()
     {
         if (_gameManager == null)
-            _gameManager = GameManager.FindObjectOfType<GameManager>();
+            _gameManager = FindObjectOfType<GameManager>();
 
         if (_audioSource == null)
             _audioSource = GetComponent<AudioSource>();
-
-        if (_vfxController == null)
-            _vfxController = GetComponent<TestVFXController>();
 
         _mainCamera = Camera.main;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !_hasBeenPickedUp)
-        {
-            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
-
-            if (Physics.Raycast(ray, out _raycastHit))
-            {
-                if (_raycastHit.transform != _pickupOrb.transform)
-                    return;
-
-                PickedUp();
-            }
-        }
+        ToolBox.MoveToTarget(_pickupPersistentEffects.transform,
+                             _pickupObject.transform,
+                             _persistentEffectsPosOffset);
     }
 
-    private void PickedUp()
+    public void PickedUp()
     {
+        if (_hasBeenPickedUp == true)
+            return;
+
         _hasBeenPickedUp = true;
 
         _gameManager.IncrementPickedUpCount();
 
-        if (_pickupSound != null)
-            _audioSource.PlayOneShot(_pickupSound, 0.2f);
+        if (_onPickupSound != null)
+            _audioSource.PlayOneShot(_onPickupSound, _onPickupSoundVolume);
 
-        _vfxController.SpawnVFXGlobal(_pickupOrb.transform.position + _vfxSpawnOffset, _pickupOrb.transform.rotation);
-
-        DisableChildren();
-
-        StartCoroutine(DelayedDestroy());
-    }
-
-    private void DisableChildren()
-    {
-        foreach (GameObject gameObject in _children)
+        if (_onPickupEffects != null)
         {
-            gameObject.SetActive(false);
+            Vector3 effectPos = _pickupObject.transform.position +
+                                _onPickupEffectsOffset;
+            Quaternion effectRot = _pickupObject.transform.rotation;
+            ToolBox.SpawnVFXGlobal(_onPickupEffects, effectPos, effectRot);
         }
-    }
 
-    private IEnumerator DelayedDestroy()
-    {
-        yield return new WaitForSeconds(3.0f);
+        Transform[] childrenTransforms = transform.Cast<Transform>().ToArray();
+        ToolBox.DisableObjects(childrenTransforms);
 
-        Destroy(this.gameObject);
+        StartCoroutine(ToolBox.DelayedDestroy(gameObject, _destroyDelay));
     }
 }
