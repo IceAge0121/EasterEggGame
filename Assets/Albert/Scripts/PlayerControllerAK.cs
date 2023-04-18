@@ -112,9 +112,8 @@ public class PlayerControllerAK : MonoBehaviour
 
     private void ApplyDecelerration()
     {
-        Vector3 playerVelocity = _playerRb.velocity;
-        playerVelocity.y = 0;
-        Vector3 decelerration = -playerVelocity.normalized * _playerDeceleration;
+        Vector3 decelerration = -ToolBox.ReturnHorizontal(_playerRb.velocity, true)
+                                * _playerDeceleration;
         if (_isGrounded)
             _playerRb.AddForce(decelerration, ForceMode.Force);
     }

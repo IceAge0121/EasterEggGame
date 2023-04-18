@@ -8,16 +8,16 @@ public static class ToolBox
         toMove.position = target.position + offset;
     }
 
-    public static void SpawnVFXLocal(GameObject vfxPrefab, Transform transform)
+    public static void SpawnLocal(GameObject prefab, Transform transform)
     {
-        if (vfxPrefab != null && transform != null)
-            Object.Instantiate(vfxPrefab, transform);
+        if (prefab != null && transform != null)
+            Object.Instantiate(prefab, transform);
     }
 
-    public static void SpawnVFXGlobal(GameObject vfxPrefab, Vector3 position, Quaternion rotation)
+    public static void SpawnGlobal(GameObject prefab, Vector3 position, Quaternion rotation)
     {
-        if (vfxPrefab != null)
-            Object.Instantiate(vfxPrefab, position, rotation);
+        if (prefab != null)
+            Object.Instantiate(prefab, position, rotation);
     }
 
     public static void DisableObjects(Transform[] toDisable)
@@ -30,13 +30,26 @@ public static class ToolBox
 
     public static IEnumerator DelayedDestroy(GameObject gameObject, float destroyDelay)
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(destroyDelay);
         Object.Destroy(gameObject);
     }
 
-    private static float ReturnHorizontalMagnitude(Vector3 input)
+    public static Vector3 ReturnHorizontal(Vector3 input, bool norm)
     {
-        Vector3 horizontalVector = new Vector3(input.x, 0.0f, input.z);
-        return horizontalVector.magnitude;
+        Vector3 horizontalInput = input;
+        horizontalInput.y = 0;
+
+        if (norm)
+            return horizontalInput.normalized;
+
+        return horizontalInput;
+    }
+
+    public static void PlayAudio(AudioSource source, AudioClip clip, float volume = 1.0f)
+    {
+        if (clip != null)
+        {
+            source.PlayOneShot(clip, volume);
+        }
     }
 }

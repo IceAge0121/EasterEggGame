@@ -959,10 +959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbec5e56aa3e7ae41b07117789e0c9e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputField: {fileID: 1333845738}
   _gameManager: {fileID: 0}
-  _answerText: 
   _cameraController: {fileID: 0}
+  _inputField: {fileID: 1333845738}
 --- !u!1 &1373953056
 GameObject:
   m_ObjectHideFlags: 0

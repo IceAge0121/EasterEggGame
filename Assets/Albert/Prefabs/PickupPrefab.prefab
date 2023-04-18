@@ -146,11 +146,13 @@ MonoBehaviour:
   _gameManager: {fileID: 0}
   _pickupObject: {fileID: 8505854073511217917}
   _pickupPersistentEffects: {fileID: 8506262300862600638}
-  _persistentEffectsPosOffset: {x: 0, y: 0.15, z: 0}
+  _persistentEffectsPosOffset: {x: 0, y: 0.17, z: 0}
   _onPickupEffects: {fileID: 1845240806346120, guid: 2c124869a4ef31748ae26fe4b2524a63,
     type: 3}
-  _onPickupEffectsOffset: {x: 0, y: -1, z: 0}
-  _pickupSound: {fileID: 8300000, guid: 3ff3b95b80687b949baa2d97ecf57602, type: 3}
+  _onPickupEffectsOffset: {x: 0, y: 0.17, z: 0}
+  _onPickupSound: {fileID: 8300000, guid: 3ff3b95b80687b949baa2d97ecf57602, type: 3}
+  _onPickupSoundVolume: 0.1
+  _destroyDelay: 3
 --- !u!1001 &8505854073511119849
 PrefabInstance:
   m_ObjectHideFlags: 0

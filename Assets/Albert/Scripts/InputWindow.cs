@@ -1,13 +1,14 @@
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(TMP_InputField))]
 public class InputWindow : MonoBehaviour
 {
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private CameraControllerAK _cameraController;
-
     [SerializeField] private TMP_InputField _inputField;
-    [SerializeField] private string _answerText;
+
+    private string _answerText;
     private TextQuestionStation _activeriddle;
 
     private void Awake()
@@ -31,23 +32,24 @@ public class InputWindow : MonoBehaviour
             _answerText = _inputField.text;
             ClearInput();
             _activeriddle.CompareAnswer(_answerText);
+            _cameraController.CanCast = true;
             Hide();
         }
-    }
-
-    public void Show(TextQuestionStation riddle = null)
-    {
-        gameObject.SetActive(true);
-        _activeriddle = riddle;
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
     }
 
     private void ClearInput()
     {
         _inputField.text = "";
+    }
+
+    public void Show(TextQuestionStation riddleResponsible = null)
+    {
+        gameObject.SetActive(true);
+        _activeriddle = riddleResponsible;
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

@@ -58,7 +58,7 @@ public class Pickup : MonoBehaviour
             Vector3 effectPos = _pickupObject.transform.position +
                                 _onPickupEffectsOffset;
             Quaternion effectRot = _pickupObject.transform.rotation;
-            ToolBox.SpawnVFXGlobal(_onPickupEffects, effectPos, effectRot);
+            ToolBox.SpawnGlobal(_onPickupEffects, effectPos, effectRot);
         }
 
         Transform[] childrenTransforms = transform.Cast<Transform>().ToArray();

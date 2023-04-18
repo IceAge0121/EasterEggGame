@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // This class should be made static in the future.
+// Also contains UI management functionality.
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private int _puzzleCount;
@@ -16,7 +17,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _textFadeSpeed = 0.1f;
 
     private bool _gameStarted = false;
-    private bool _inputtingText = false;
     private int _pickedUpCount = 0;
 
     private void Awake()
@@ -46,8 +46,6 @@ public class GameManager : MonoBehaviour
         ActivatePlayerControls();
         StartCoroutine(FadeOpeningTexts());
         _gameStarted = true;
-
-        Debug.Log($"'_gameStarted' set to {_gameStarted}.");
     }
 
     public void GameComplete()
@@ -84,7 +82,6 @@ public class GameManager : MonoBehaviour
             foreach (TextMeshProUGUI tmp in _completeTexts)
             {
                 tmp.alpha += _textFadeSpeed * Time.deltaTime;
-                Debug.Log(tmp.alpha);
                 keepgoing = tmp.alpha <= 1.0f;
             }
             yield return null;

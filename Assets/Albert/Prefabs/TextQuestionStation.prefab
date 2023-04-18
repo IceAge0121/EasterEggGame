@@ -247,20 +247,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'I CAN BE CRACKED,
-
-
-    I CAN BE MADE,
-
-
-    I CAN BE TOLD,
-
-
-    I CAN
-    BE PLAYED,
-
-
-    WHAT AM I?'
+  m_text: "THREE LIVES HAVE I\n\nGENTLE ENOUGH TO \nSOOTHE THE SKIN\n\nLIGHT ENOUGH
+    TO \nCARESS THE SKY\n\nHARD ENOUGH TO \nCRACK ROCKS\n\nWHAT AM I?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 620cec573ed1a6c4d92489af87bc4b61, type: 2}
   m_sharedMaterial: {fileID: 7381867422707254274, guid: 620cec573ed1a6c4d92489af87bc4b61,
@@ -765,21 +753,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577661b6b252a824996575d181618083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputWindow: {fileID: 0}
   _gameManager: {fileID: 0}
-  _inputObject: {fileID: 7616470689743782665}
-  _cameraController: {fileID: 0}
-  _playerMovement: {fileID: 0}
-  _vfx: {fileID: 7616470689809836363}
+  _inputWindow: {fileID: 0}
   _questionMonument: {fileID: 7617270567225543647}
-  _pickupSpawnOffset: {x: 0, y: 4, z: 0}
+  _vfxAnchorTransform: {fileID: 7616470689809836372}
+  _inputOptionObject: {fileID: 7616470689743782665}
+  _solutionString: water
   _pickupPrefab: {fileID: 9011167431539580627, guid: ae4979ea43882d54fb8c89fadffe49ab,
+    type: 3}
+  _pickupSpawnOffset: {x: 0, y: 4, z: 0}
+  _poofVFX: {fileID: 6779782868371938137, guid: a36463e81ef7a4743b16191c8e44f307,
     type: 3}
   _puffClip: {fileID: 8300000, guid: 94c521cf8904e44499c372f71754fb3e, type: 3}
   _selectSound: {fileID: 8300000, guid: 8234405f8310fac4a81e6e8a2da582bb, type: 3}
   _correctSound: {fileID: 8300000, guid: d365c911f6e7f3e4f95c6a413f2e282a, type: 3}
   _incorrectSound: {fileID: 8300000, guid: 6cb40618893783c4cbb70a5b989e5c37, type: 3}
-  _solutionString: joke
 --- !u!82 &7616470690725486449
 AudioSource:
   m_ObjectHideFlags: 0

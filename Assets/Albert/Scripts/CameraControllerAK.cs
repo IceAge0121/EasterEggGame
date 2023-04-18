@@ -6,9 +6,16 @@ public class CameraControllerAK : MonoBehaviour
     [SerializeField] private Transform _cameraTransform;
     private float xRotation = -10.0f;
 
+    private bool _canCast = true;
     private RaycastHit _raycastHit;
     private GameObject _highlightedObject;
     [SerializeField] private float _maxInteractionDistance = 10.0f;
+
+    public bool CanCast
+    {
+        get { return _canCast; }
+        set { _canCast = value; }
+    }
 
     private void Awake()
     {
@@ -35,12 +42,18 @@ public class CameraControllerAK : MonoBehaviour
         if (_raycastHit.distance > _maxInteractionDistance)
             return;
 
-        HighlightObject(_raycastHit.transform);
+        if (!HighlightObject(_raycastHit.transform))
+            return;
+
+        if (!_canCast)
+            return;
 
         if (Input.GetMouseButtonDown(0) == false)
             return;
 
-        HandlePickup(_raycastHit.transform.gameObject);
+        if (HandlePickup(_raycastHit.transform.gameObject))
+            return;
+
         HandleTextInput(_raycastHit.transform.gameObject);
     }
 
@@ -67,7 +80,7 @@ public class CameraControllerAK : MonoBehaviour
         }
     }
 
-    private void HighlightObject(Transform toHighlight)
+    private bool HighlightObject(Transform toHighlight)
     {
         if (_highlightedObject != null)
         {
@@ -79,21 +92,27 @@ public class CameraControllerAK : MonoBehaviour
         {
             _highlightedObject = toHighlight.gameObject;
             _highlightedObject.GetComponent<Outline>().enabled = true;
+            return true;
         }
+        return false;
     }
 
-    private void HandlePickup(GameObject pickupObject)
+    private bool HandlePickup(GameObject pickupObject)
     {
-        if (pickupObject.GetComponentInParent<Pickup>() != null)
-            pickupObject.GetComponentInParent<Pickup>().PickedUp();
+        if (pickupObject.GetComponentInParent<Pickup>() == null)
+            return false;
+
+        pickupObject.GetComponentInParent<Pickup>().PickedUp();
+        return true;
     }
 
-    private void HandleTextInput(GameObject textInput)
+    private bool HandleTextInput(GameObject textInput)
     {
-        if (textInput.GetComponentInParent<TextQuestionStation>() != null)
-        {
+        if (textInput.GetComponentInParent<TextQuestionStation>() == null)
+            return false;
 
-        }
+        textInput.GetComponentInParent<TextQuestionStation>().HandleTextInput();
+        return true;
     }
 
     // Public methods.
